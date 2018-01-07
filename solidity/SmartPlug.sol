@@ -41,7 +41,7 @@ contract SmartPlug {
         if (DEBUG) {
             remainingTime[encrypted] = now + 20 * 1 seconds;
         } else {
-            remainingTime[encrypted] = now + 60 * 1 minutes;
+            remainingTime[encrypted] = now + 60 * 2 minutes;
         }
 
         startSupply(targetOutlet);

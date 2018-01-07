@@ -23,7 +23,10 @@ class Wifi {
     }
 
     setup() {
+        log.debug("start");
         this.disconnect().then(()=> {
+            return this.disconnect2();
+        }).then(()=> {
             return this.connectOutlet();
         }).then(()=> {
             return this.waitabit();
@@ -32,6 +35,8 @@ class Wifi {
         }).then(()=> {
             return this.disconnect();
         }).then(()=> {
+            return this.waitabit();
+        }).then(()=> {
             return this.connectMain();
         }).then(()=> {
             return this.waitabit();
@@ -39,6 +44,7 @@ class Wifi {
             return this.sendEvent();
         }).catch((err) => {
             log.warn(err);
+            this.fallback();
         });
 
     }
@@ -51,7 +57,8 @@ class Wifi {
         const options = {
             interface: 'wlan0',
             ssid: 'SmartOutlet',
-            driver: 'nl80211'
+            passphrase: 'smartoutlet',
+            driver: 'nl80211,wext'
         };
         return new Promise((resolve, reject) => {
             log.debug("try to connect outlet wifi");
@@ -71,9 +78,9 @@ class Wifi {
     connectMain() {
         const options = {
             interface: 'wlan0',
-            ssid: 'ENVIRONMENT_SSID(change here)',
-            passphrase: 'ENVIRONMENT_PASS(change here)',
-            driver: 'nl80211'
+            ssid: 'xxxx',
+            passphrase: 'xxxx',
+            driver: 'nl80211,wext'
         };
         return new Promise((resolve, reject) => {
             log.debug("try to connect main wifi");
@@ -93,6 +100,17 @@ class Wifi {
     disconnect() {
         return new Promise((resolve, reject) => {
             wpa_supplicant.disable("wlan0", (err) => {
+                if (err) {
+                    log.debug("disconnect: " + err);
+                }
+                resolve();
+            });
+        });
+    }
+
+    disconnect2() {
+        return new Promise((resolve, reject) => {
+            wpa_supplicant.disable2("wlan0", (err) => {
                 if (err) {
                     log.debug("disconnect: " + err);
                 }
@@ -140,6 +158,14 @@ class Wifi {
         });
     }
 
+    fallback() {
+        log.error("start network fallback");
+        this.disconnect().then(()=> {
+            return this.disconnect2();
+        }).then(()=> {
+            return this.connectMain();
+        });
+    }
 
 
 }

@@ -35,7 +35,8 @@ class App {
             if (enabled) {
                 const hashpair = _this.generateKeyAndHash();
                 _this.coin.sendOutletHash('0x' + hashpair.datahash);
-                fs.writeFile(key, hashpair.datakey);
+                log.debug("key: " + hashpair.datakey);
+                fs.writeFileSync(key, hashpair.datakey);
             } else {
                 log.debug("start sta");
             }

@@ -143,7 +143,7 @@ const abi = [
         "type": "constructor"
     }
 ];
-const address_contract = "0x71A2897b2B222225855240c10114FdE25865b3fB";
+const address_contract = "0x50b7f0491988a5de4fcad8b4bd37729ede70b385";
 
 const Web3 = require('web3');
 const net = require('net');
