@@ -19,6 +19,14 @@ class Gpio {
         this.fs = require('fs');
         this.prevValue = 0;
 
+        try {
+            this.gpioUnexport(SSR);
+            this.gpioUnexport(SW_OUT);
+            this.gpioUnexport(SW_IN);
+        } catch (e) {
+            // do nothing
+        }
+
         this.gpioExport(SSR);
         this.gpioDirection(SSR, 'out');
         this.writeGpio(SSR, 0);
