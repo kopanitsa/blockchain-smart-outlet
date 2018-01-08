@@ -3,6 +3,7 @@
 const http = require('http');
 const events = require('events');
 const util = require('util');
+const fs = require('fs');
 const ifconfig = require('wireless-tools/ifconfig');
 const wpa_supplicant = require('wireless-tools/wpa_supplicant');
 const setTimeoutPromise = util.promisify(setTimeout);
@@ -20,6 +21,11 @@ class Wifi {
         ifconfig.status('wlan0', (err, status) => {
             log.debug(status);
         });
+
+        const file = fs.readFileSync(__dirname + '/../../data/wifi.json', 'utf8');
+        const json = JSON.parse(file);
+        this.ssid = json["ssid"];
+        this.password = json["password"];
     }
 
     setup() {
@@ -78,8 +84,8 @@ class Wifi {
     connectMain() {
         const options = {
             interface: 'wlan0',
-            ssid: 'xxxx',
-            passphrase: 'xxxx',
+            ssid: this.ssid,
+            passphrase: this.password,
             driver: 'nl80211,wext'
         };
         return new Promise((resolve, reject) => {
