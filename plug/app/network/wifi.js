@@ -139,7 +139,7 @@ class Wifi {
                     body += chunk;
                 });
                 res.on('end', (res) => {
-                    _this.key = body;
+                    _this.outletkey = body;
                     log.debug("outlet key: " + body);
                     resolve();
                 });

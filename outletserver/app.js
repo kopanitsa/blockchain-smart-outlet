@@ -11,6 +11,6 @@ http.createServer(function (req, res) {
     const key = fs.readFileSync(path, 'utf8');
     res.writeHead(200, {'Content-Type': 'text/plain'});
     res.end(key);
-    log.debug(key);
+    log.debug("key:" + key);
 }).listen(8000, ip);
 

@@ -6,6 +6,25 @@ const abi = [
         "constant": true,
         "inputs": [
             {
+                "name": "x",
+                "type": "bytes32"
+            }
+        ],
+        "name": "bytes32ToString",
+        "outputs": [
+            {
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
                 "name": "",
                 "type": "address"
             }
@@ -22,6 +41,18 @@ const abi = [
         "type": "function"
     },
     {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "logUI256",
+        "type": "event"
+    },
+    {
         "constant": false,
         "inputs": [],
         "name": "buyCoin",
@@ -29,6 +60,45 @@ const abi = [
         "payable": true,
         "stateMutability": "payable",
         "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "withdraw",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "payable": true,
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "_hash",
+                "type": "bytes32"
+            }
+        ],
+        "name": "sendOutletHash",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "constructor"
     },
     {
         "constant": false,
@@ -67,10 +137,10 @@ const abi = [
             {
                 "indexed": false,
                 "name": "",
-                "type": "uint256"
+                "type": "address"
             }
         ],
-        "name": "logUI256",
+        "name": "startSupply",
         "type": "event"
     },
     {
@@ -90,60 +160,10 @@ const abi = [
         "payable": false,
         "stateMutability": "nonpayable",
         "type": "function"
-    },
-    {
-        "constant": false,
-        "inputs": [
-            {
-                "name": "_hash",
-                "type": "bytes32"
-            }
-        ],
-        "name": "sendOutletHash",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "name": "startSupply",
-        "type": "event"
-    },
-    {
-        "constant": false,
-        "inputs": [
-            {
-                "name": "amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "withdraw",
-        "outputs": [
-            {
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "payable": true,
-        "stateMutability": "payable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "constructor"
     }
 ];
-const address_contract = "0x50b7f0491988a5de4fcad8b4bd37729ede70b385";
+
+const address_contract = "0x018968e41da1364e328499613a7e5a22904ad513";
 
 const Web3 = require('web3');
 const net = require('net');

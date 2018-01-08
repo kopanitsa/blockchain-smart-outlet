@@ -35,7 +35,6 @@ class App {
             if (enabled) {
                 const hashpair = _this.generateKeyAndHash();
                 _this.coin.sendOutletHash('0x' + hashpair.datahash);
-                log.debug("key: " + hashpair.datakey);
                 fs.writeFileSync(key, hashpair.datakey);
             } else {
                 log.debug("start sta");
@@ -55,6 +54,8 @@ class App {
             key += c[Math.floor(Math.random()*cl)];
         }
         let hash = createKeccakHash('keccak256').update(key).digest('hex');
+        log.debug("key: " + key);
+        log.debug("hash: " + hash);
 
         return {datakey: key, datahash: hash};
     }

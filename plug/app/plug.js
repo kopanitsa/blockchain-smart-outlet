@@ -18,12 +18,14 @@ class App {
         const json = JSON.parse(file);
         const address = json["address"];
         const password = json["password"];
+        const _this = this;
         this.coin = new Coin(address, password);
         this.wifi = new Wifi();
         this.wifi.setup(); // get key from outlet
 
         this.wifi.on('key', (key) => {
-            this.coin.sendCoin(key);
+            log.debug("send coin to: " + key);
+            _this.coin.sendCoin(key);
         });
     }
 }
