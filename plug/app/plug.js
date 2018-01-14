@@ -18,8 +18,10 @@ class App {
         const json = JSON.parse(file);
         const address = json["address"];
         const password = json["password"];
+        const privatekey = json["privatekey"];
         const _this = this;
-        this.coin = new Coin(address, password);
+        this.coin = new Coin(address, password, privatekey);
+
         this.wifi = new Wifi();
         this.wifi.setup(); // get key from outlet
 

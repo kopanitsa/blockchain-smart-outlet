@@ -166,59 +166,41 @@ const abi = [
 const address_contract = "0x018968e41da1364e328499613a7e5a22904ad513";
 
 const Web3 = require('web3');
-const net = require('net');
-let web3 = new Web3('/home/pi/.ethereum/rinkeby/geth.ipc', net);
+const web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/<YOUR_ID>"));
 let plugContract = new web3.eth.Contract(abi, address_contract);
 
 const Log = require('../utils/log');
 let log = new Log();
 
 class Coin {
-    constructor(address, password) {
+    constructor(address, password, privatekey) {
         this.address = address;
         this.password = password;
+        this.privatekey = privatekey;
         plugContract.options.from = this.address;
-        plugContract.options.gasPrice = '20000000000000'; // default gas price in wei
+        plugContract.options.gasPrice = '200000000000000'; // default gas price in wei
         plugContract.options.gas = 5000000; // provide as fallback always 5M gas
 
-        this.startWatching();
-    }
-
-    startWatching() {
-        var subscription = web3.eth.subscribe('logs', {
-            address: address_contract,
-            topics: [web3.utils.sha3('log(string)')]
-        }, (error, result) => {
-            if (error)
-                log.error(error);
-            log.debug("result: " + web3.utils.hexToAscii(result.data));
-        }).on("data", function(result){
-            log.debug("data: " + web3.utils.hexToAscii(result.data));
-        }).on("changed", function(result){
-            log.debug("changed: " + web3.utils.hexToAscii(result.data));
+        web3.eth.accounts.wallet.add({
+            privateKey: this.privatekey,
+            address: this.address
         });
     }
 
     sendCoin(key) {
-        web3.eth.personal.unlockAccount(this.address, this.password, 60)
-            .then((response) => {
-                log.debug("unlock:" + response);
-                this.execPayFromPlug(key, 10000);
-            }).catch((error) => {
-            console.log(error);
-        });
+        this.execPayFromPlug(key, 10000);
     }
 
     execPayFromPlug(key, coin) {
         plugContract.methods.payFromPlug(key, coin).send(
-            {from: this.address, gasPrice: 200000000000, gas: 3000000},
+            {from: this.address, gasPrice: 20000000000, gas: 3000000},
             (error, result)=> {
                 log.debug("payFromPlug result:" + result);
                 log.debug("payFromPlug error:" + error);
             }).on('transactionHash', (hash) => {
             log.debug("transactionHash: " + hash);
         }).on('receipt', (receipt) => {
-            log.debug("receipt: " + receipt);
+            log.debug(receipt);
         }).on('error', (error) => {
             log.error(error);
         });
