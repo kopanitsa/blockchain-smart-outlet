@@ -166,7 +166,7 @@ const abi = [
 const address_contract = "0x018968e41da1364e328499613a7e5a22904ad513";
 
 const Web3 = require('web3');
-const web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/<YOUR_ID>"));
+const web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/CPJOZqFCV8WOx1zOCRXg"));
 let plugContract = new web3.eth.Contract(abi, address_contract);
 
 const Log = require('../utils/log');

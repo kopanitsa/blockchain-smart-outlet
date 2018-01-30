@@ -3,6 +3,7 @@
 const Log = require('./utils/log');
 const Coin = require('./eth/coin');
 const Wifi = require('./network/wifi');
+const Gpio = require('./peripheral/gpio');
 const fs = require('fs');
 let log = new Log();
 
@@ -23,12 +24,18 @@ class App {
         this.coin = new Coin(address, password, privatekey);
 
         this.wifi = new Wifi();
-        this.wifi.setup(); // get key from outlet
+        this.gpio = new Gpio();
 
-        this.wifi.on('key', (key) => {
-            log.debug("send coin to: " + key);
-            _this.coin.sendCoin(key);
-        });
+        this.interval = setInterval(() => {
+            if (_this.gpio.isPlugin()==1) {
+                clearInterval(_this.interval);
+                _this.wifi.setup(); // get key from outlet
+                _this.wifi.on('key', (key) => {
+                    log.debug("send coin to: " + key);
+                    _this.coin.sendCoin(key);
+                });
+            }
+        }, 5000);
     }
 }
 
