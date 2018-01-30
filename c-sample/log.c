@@ -1,6 +1,5 @@
 //
 // Created by Okada, Takahiro on 2017/04/03.
-// Copyright (c) 2017 BCG Digital Ventures. All rights reserved.
 //
 
 #include "log.h"
